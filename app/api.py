@@ -9,6 +9,6 @@ def root():
 
 @router.get("/grafico-preco")
 def grafico_preco():
-    df = carregar_dados("app/realtor-data.zip.csv")
+    df = carregar_dados()
     img_base64 = gerar_histograma_preco(df)
     return {"image": img_base64}
