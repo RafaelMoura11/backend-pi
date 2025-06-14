@@ -1,0 +1,40 @@
+# Arquivos e pastas do ambiente virtual
+venv/
+.env
+*.env
+
+# Bytecode Python
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Logs
+*.log
+
+# Arquivos temporários
+*.swp
+*.bak
+*.tmp
+
+# Diretórios de testes
+.coverage
+.cache/
+.pytest_cache/
+
+# VSCode (ou outras IDEs)
+.vscode/
+.idea/
+
+# Dependências locais
+pip-wheel-metadata/
+dist/
+build/
+*.egg-info/
+
+# Docker
+*.tar
+*.gz
+
+# Arquivos do sistema
+.DS_Store
+Thumbs.db
