@@ -38,3 +38,6 @@ build/
 # Arquivos do sistema
 .DS_Store
 Thumbs.db
+
+# Arquivo CSV
+realtor-data.zip.csv
