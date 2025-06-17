@@ -5,7 +5,7 @@ router = APIRouter()
 
 @router.get("/")
 def root():
-    return {"message": "Teste"}
+    return {"message": "API funcionando"}
 
 @router.get("/grafico-preco")
 def grafico_preco():
