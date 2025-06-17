@@ -2,22 +2,17 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import io
 import base64
-import os
-import gdown
+import sqlalchemy
+
+# String de conexão ao banco Neon
+DATABASE_URL = "postgresql://banco_pi_owner:npg_nLSXmdj45eAQ@ep-cool-wildflower-a8xnke2o-pooler.eastus2.azure.neon.tech/banco_pi?sslmode=require"
+
+# Engine do SQLAlchemy
+engine = sqlalchemy.create_engine(DATABASE_URL)
 
 def carregar_dados():
-    file_id = "14vCXaKwQSF_MMGX-WCu093Y_lvwzIfpw"
-    url = f"https://drive.google.com/uc?id={file_id}"
-    output = "realtor-data.csv"
-
-    # Baixar somente se ainda não estiver salvo localmente
-    if not os.path.exists(output):
-        gdown.download(url, output, quiet=False)
-
-    df = pd.read_csv(output)
-
-    print("Colunas disponíveis:", df.columns.tolist())  # Para debug
-
+    query = "SELECT * FROM real_estate"
+    df = pd.read_sql(query, engine)
     return df
 
 def gerar_histograma_preco(dados: pd.DataFrame) -> str:
