@@ -1,4 +1,4 @@
-from fastapi import APIRouter
+from fastapi import APIRouter, Query
 from app.analytics import carregar_dados, gerar_histograma_preco
 
 router = APIRouter()
