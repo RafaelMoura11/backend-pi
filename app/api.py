@@ -17,21 +17,13 @@ def grafico_preco(
     bath_min: int = Query(None)
 ):
     df = carregar_dados()
-
-    # Aplicar filtros
-    if cidade:
-        df = df[df['city'].str.lower() == cidade.lower()]
-    if estado:
-        df = df[df['state'].str.lower() == estado.lower()]
-    if price_min is not None:
-        df = df[df['price'] >= price_min]
-    if price_max is not None:
-        df = df[df['price'] <= price_max]
-    if bed_min is not None:
-        df = df[df['bed'] >= bed_min]
-    if bath_min is not None:
-        df = df[df['bath'] >= bath_min]
-
-    # Gerar imagem
-    img_base64 = gerar_histograma_preco(df)
+    img_base64 = gerar_histograma_preco(
+        df,
+        cidade=cidade,
+        estado=estado,
+        price_min=price_min,
+        price_max=price_max,
+        bed_min=bed_min,
+        bath_min=bath_min
+    )
     return {"image": img_base64}
