@@ -15,14 +15,50 @@ def carregar_dados():
     df = pd.read_sql(query, engine)
     return df
 
-def gerar_histograma_preco(dados: pd.DataFrame) -> str:
-    fig, ax = plt.subplots(figsize=(10, 6))
-    dados_filtrados = dados[(dados['price'] > 0) & (dados['price'] < 10_000_000)]
-    dados_filtrados['price'].hist(bins=50, ax=ax)
-    ax.set_title('Distribuição dos preços dos imóveis')
-    ax.set_xlabel('Preço')
-    ax.set_ylabel('Quantidade de imóveis')
+def gerar_histograma_preco(
+    dados: pd.DataFrame,
+    cidade: str = None,
+    estado: str = None,
+    price_min: float = None,
+    price_max: float = None,
+    bed_min: int = None,
+    bath_min: int = None
+) -> str:
+    # Aplicar filtros
+    if cidade:
+        dados = dados[dados['city'].str.lower() == cidade.lower()]
+    if estado:
+        dados = dados[dados['state'].str.lower() == estado.lower()]
+    if price_min is not None:
+        dados = dados[dados['price'] >= price_min]
+    if price_max is not None:
+        dados = dados[dados['price'] <= price_max]
+    if bed_min is not None:
+        dados = dados[dados['bed'] >= bed_min]
+    if bath_min is not None:
+        dados = dados[dados['bath'] >= bath_min]
 
+    # Remover valores extremos
+    dados_filtrados = dados[(dados['price'] > 0) & (dados['price'] < 10_000_000)]
+
+    # Gerar gráfico
+    fig, ax = plt.subplots(figsize=(10, 6))
+    dados_filtrados['price'].hist(bins=50, ax=ax, color='skyblue', edgecolor='black')
+
+    titulo = "Distribuição dos Preços dos Imóveis"
+    if cidade and estado:
+        titulo += f" - {cidade}, {estado}"
+    elif estado:
+        titulo += f" - {estado}"
+    elif cidade:
+        titulo += f" - {cidade}"
+
+    ax.set_title(titulo)
+    ax.set_xlabel('Preço (USD)')
+    ax.set_ylabel('Quantidade de Imóveis')
+    plt.tight_layout()
+
+    # Converter imagem para base64
     buf = io.BytesIO()
     plt.savefig(buf, format="png")
     buf.seek(0)
